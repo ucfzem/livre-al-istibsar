@@ -145,8 +145,10 @@ Route (app)                              Size     First Load JS
 | Branche de déploiement | https://github.com/ucfzem/livre-al-istibsar/tree/gh-pages |
 | Link tree `/works` | https://ucfzem.github.io/works/ |
 | Commit link tree | https://github.com/ucfzem/ucfzem.github.io/commit/724e5c84a549d4205221c851bd7c8bdeb300a9d0 |
-| Commit correctif (source) | https://github.com/ucfzem/livre-al-istibsar/commit/32e95c9 |
-| Commit déploiement (`gh-pages`) | https://github.com/ucfzem/livre-al-istibsar/commit/083837f |
+| Commit correctif chunk (source) | https://github.com/ucfzem/livre-al-istibsar/commit/32e95c9 |
+| Commit contenu texte intégral | https://github.com/ucfzem/livre-al-istibsar/commit/df65ae3 |
+| Déploiement `gh-pages` (texte intégral) | https://github.com/ucfzem/livre-al-istibsar/commit/2396bfc |
+| Déploiement `gh-pages` (correctif chunk) | https://github.com/ucfzem/livre-al-istibsar/commit/083837f |
 | Ce backup | https://github.com/ucfzem/livre-al-istibsar/blob/main/CONVERSATION_BACKUP.md |
 
 ## 8. Thème clair/sombre + typographie (Nuzhat style)
@@ -186,22 +188,50 @@ sombre OK sans avertissement d'hydratation.
 
 **Déploiement** : branche `gh-pages` mise à jour (force) → `083837f`.
 
-## 10. Contenu : textes originaux vs résumés (en cours)
+## 10. Contenu : textes originaux intégrés
 
-Retour utilisateur : les sections ne contiennent pour l'instant que des
-**descriptions/résumés**, pas le **texte original intégral**.
+Retour utilisateur : les sections ne contenaient que des **résumés**, pas le
+**texte original intégral**. Corrigé : le texte authentique a été extrait de
+**المكتبة الشاملة** (https://shamela.ws/book/11684) et intégré.
 
-Sources publiques (domaine public) identifiées pour les textes authentiques :
+- Nouveau fichier `lib/book-texts.js` (~500 Ko) : texte verbatim des **14
+  sections** (la 15ᵉ, `5-1 الأندلس`, est conservée telle quelle — le livre n'a
+  pas de chapitre sur l'Andalousie).
+- `lib/data.js` fusionne `bookTexts` dans chaque section (`section.content`).
+- `app/[...slug]/client.js` rend désormais le texte **paragraphe par
+  paragraphe** (justifié, interligne `leading-loose`).
+- Nettoyage : suppression des marqueurs de notes de bas de page (« ١ », « ا »…)
+  et des numéros de page isolés.
 
-| Source | URL |
-|--------|-----|
-| المكتبة الشاملة | https://shamela.ws/book/11684 |
-| الشاملة (lecture) | https://read.shamela.ws/book/11684/ |
-| أرشيف الإسلام | https://www.islamarchive.cc/ketab_content/997 |
-| Internet Archive (PDF) | https://archive.org/details/alistibsar_201604 |
-| ويكي مصدر (وصف إفريقية) | https://ar.wikisource.org/wiki/ملف:وصف_إفريقية_من_الاستبصار_في_عجائب_الأمصار.pdf |
+### Répartition des pages (édition papier) par section
 
-Édition de référence : د. سعد زغلول عبد الحميد (دار النشر المغربية 1985 / بغداد 1986).
+| Section | Pages | Contenu |
+|---------|-------|---------|
+| 1-1 | 1–9 | خطبة الكتاب، حدود حرم مكة، وصف مكة والجبال، الأرباض |
+| 1-2 | 10–18 | ذرع الكعبة، البيت، السقف، الباب، الحجر الأسود |
+| 1-3 | 19–36 | المقام، زمزم، المسجد الحرام، الصفا والمروة، المشاعر |
+| 1-4 | 37–41 | مسجد النبي، الروضة، المنبر، المحراب، العمد |
+| 1-5 | 42–44 | بقيع المدينة، مسجد قبا، قبور الشهداء |
+| 2-1 | 45–49 | بلاد مصر والنيل وعجائبه |
+| 2-2 | 50–77 | أخبار ملوك مصر، بناء الأهرام، شوندين، خبر يوسف |
+| 2-3 | 78–81 + 92–96 | فتح مصر، الإسكندرية وصفة المنارة |
+| 2-4 | 82–91 + 97–108 | مدن مصر (الفسطاط، الفيوم، تنيس…)، انتصار صلاح الدين |
+| 3-1 | 109–120 + 142–153 | طرابلس، القيروان، سفاقس، تونس، البلاد الصحراوية، الجريد |
+| 3-2 | 121–137 + 140–141 + 154–178 | قرطاجنة، المهدية، سوسة، بجاية، قسطيلية، المغرب الأوسط |
+| 4-1 | 179–186 + 208–210 | بلاد المغرب، فاس، مراكش |
+| 4-2 | 187–207 + 211–226 | مكناسة، غمارة، سجلماسة، درعة، أغمات، السوس، السودان، غانة، الخاتمة |
+| 4-3 | 138–139 | طنجة، أصيلا، بحر الظلمات |
+| 5-1 | — | الأندلس (résumé conservé) |
+
+Couverture : **pages 1–226 = 100 % du texte** (0 page manquante), vérifié.
+
+### Vérification (Playwright, live)
+
+Navigation client vers les 15 sections → 0 erreur, 0 chunk 4xx ; ex. `4-2`
+affiche ~52 800 caractères / 173 paragraphes.
+
+Source (domaine public) : `https://shamela.ws/book/11684` — édition
+د. سعد زغلول عبد الحميد (دار النشر المغربية 1985 / بغداد 1986).
 
 ---
 
