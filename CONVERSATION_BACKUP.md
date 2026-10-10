@@ -147,6 +147,21 @@ Route (app)                              Size     First Load JS
 | Commit link tree | https://github.com/ucfzem/ucfzem.github.io/commit/724e5c84a549d4205221c851bd7c8bdeb300a9d0 |
 | Ce backup | https://github.com/ucfzem/livre-al-istibsar/blob/main/CONVERSATION_BACKUP.md |
 
+## 8. Thème clair/sombre + typographie (Nuzhat style)
+
+Retour utilisateur : « pas de mode sombre/clair » et « polices différentes de
+nuzhat-al-mushtaq ».
+
+- **Polices** alignées sur `nuzhat-al-mushtaq.vercel.app` :
+  - **Cairo** (interface) et **Amiri** (contenu du livre), chargées via
+    `next/font/google` → auto-hébergées (aucune dépendance réseau au runtime).
+- **Thème clair/sombre** :
+  - Variables CSS `:root` (clair) et `[data-theme="dark"]` (sombre).
+  - Bouton bascule 🌙/☀️ dans l'en-tête (`components/ThemeToggle.js`).
+  - Préférence sauvegardée dans `localStorage['istibsar_theme']`.
+  - Script d'amorçage `beforeInteractive` pour éviter le flash au chargement.
+- Palette alignée sur Nuzhat (vert / or / parchemin).
+
 ---
 
 *Généré automatiquement par OpenCode.*

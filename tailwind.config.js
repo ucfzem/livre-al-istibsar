@@ -8,9 +8,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        parchment: '#f8f4eb',
-        ink: '#2c1810',
-        gold: '#9a7b4f',
+        parchment: 'var(--paper)',
+        paper: 'var(--paper)',
+        panel: 'var(--panel)',
+        card: 'var(--card)',
+        ink: 'var(--ink)',
+        line: 'var(--line)',
+        gold: 'var(--gold)',
+        green: 'var(--green)',
+        accent: 'var(--accent-text)',
+        muted: 'var(--muted)',
+        headertext: 'var(--header-text)',
+      },
+      fontFamily: {
+        cairo: ['var(--font-cairo)', 'Cairo', 'Segoe UI', 'Tahoma', 'sans-serif'],
+        amiri: ['var(--font-amiri)', 'Amiri', 'Traditional Arabic', 'serif'],
       },
     },
   },

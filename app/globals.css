@@ -2,10 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ink: #2b2118;
+  --paper: #faf5e9;
+  --panel: #f2e9d6;
+  --green: #1f5c46;
+  --gold: #a9792f;
+  --line: #d8c9a8;
+  --card: #fffdf6;
+  --accent-text: #7c5620;
+  --muted: #7a6a50;
+  --header-text: #f5eeda;
+  --focus: #ffd166;
+}
+
+[data-theme='dark'] {
+  --ink: #ece4d3;
+  --paper: #16130e;
+  --panel: #241f16;
+  --green: #4e9a73;
+  --gold: #d3a34a;
+  --line: #3a3225;
+  --card: #1e1912;
+  --accent-text: #d9b977;
+  --muted: #9a8a6c;
+  --header-text: #f5eeda;
+  --focus: #ffd166;
+}
+
 @layer base {
-  html, body {
-    @apply bg-parchment text-ink min-h-screen;
-    font-family: 'Georgia', 'Noto Naskh Arabic', serif;
+  html,
+  body {
+    @apply bg-paper text-ink min-h-screen;
+    font-family: var(--font-cairo), 'Cairo', 'Segoe UI', Tahoma, sans-serif;
     direction: rtl;
+    line-height: 1.9;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .font-book {
+    font-family: var(--font-amiri), 'Amiri', 'Traditional Arabic', serif;
+    line-height: 2.1;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
   }
 }
