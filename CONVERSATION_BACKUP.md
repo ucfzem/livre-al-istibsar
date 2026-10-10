@@ -270,4 +270,46 @@ constitué à partir du **texte authentique de l'ouvrage lui-même**.
 
 ---
 
+## 12. Améliorations UI : barre sticky + cartes de navigation rapide (Highlight Cards)
+
+**Demande utilisateur** : deux améliorations sur le site `livre-al-istibsar` :
+(1) **Highlight Cards** en tête du livre pour un accès en un clic aux
+« عجائب » (القيروان، آبار ورجلان، غانة، العقيق، توريرى…) ; (2) **barre de
+recherche collante (sticky)** pour continuer la recherche pendant le scroll.
+La version HTML fournie par l'utilisateur était un démo statique ; les deux
+améliorations ont donc été intégrées **dans le vrai projet Next.js** en
+conservant tout de lui (accordéon, recherche plein texte, pages par section,
+thème clair/sombre, polices Amiri/Aref).
+
+**Modifications** :
+
+- `app/page.js` :
+  - tableau `highlights` (5 chips : 🏛️ وضع القيروان، 🌴 آبار ورجلان العجيبة،
+    🏺 بلاد غانة والذهب، 💎 حجارة العقيق والسنبادج، 🌿 شجرة توريرى) ;
+  - boutons-chips horizontaux (défilement), qui réinjectent leur terme dans la
+    recherche (`setSearchQuery`), chip actif mis en évidence, re-clic = efface ;
+  - encadré de recherche enveloppé dans `sticky top-2 z-40` (bg `paper`)
+    → reste visible pendant le scroll (l'image).
+
+  **Astuce déploiement** : pousser le commit de déploiement sur le branch
+  `gh-pages` depuis un **détached HEAD** — `git worktree add` sur un coup
+  `origin/gh-pages` ne crée pas de branche locale nommée `gh-pages`, il faut
+  `git push <url> <sha-detached>:gh-pages`.
+
+- `app/globals.css` : utilité `@layer utilities .scrollbar-thin` (barre de
+  défilement horizontale fine et dorée pour les chips).
+
+**Vérification** : `npm run build` → OK (19 pages) ; live HTTP 200 sur
+`/livre-al-istibsar/` et `/livre-al-istibsar/index.txt` ; le HTML servi contient
+`sticky top-2`, « ✨ عجائب » et « ورجلان ».
+
+**Commits** :
+
+| Étape | Commit |
+|-------|--------|
+| Source (`main`) | `48b544a` |
+| Déploiement (`gh-pages`) | `07665ef` |
+
+---
+
 *Généré automatiquement par OpenCode.*
