@@ -284,20 +284,22 @@ thème clair/sombre, polices Amiri/Aref).
 **Modifications** :
 
 - `app/page.js` :
-  - tableau `highlights` (5 chips : 🏛️ وضع القيروان، 🌴 آبار ورجلان العجيبة،
-    🏺 بلاد غانة والذهب، 💎 حجارة العقيق والسنبادج، 🌿 شجرة توريرى) ;
-  - boutons-chips horizontaux (défilement), qui réinjectent leur terme dans la
-    recherche (`setSearchQuery`), chip actif mis en évidence, re-clic = efface ;
+  - tableau `highlights` (5 cartes : 🏛️ وضع القيروان، 🌴 آبار ورجلان العجيبة،
+    🏺 بلاد غانة والذهب، 💎 معادن العقيق والسنبادج، 🌿 شجرة توريرى) ;
+  - **cartes** (grid `sm:2`/`lg:3`) : icône + titre + note descriptive issue du
+    réel texte (depuis Git) ; clic → `setSearchQuery(term)` (re-clic = efface),
+    carte **active dorée** (`bg-gold`) + `aria-pressed` ;
   - encadré de recherche enveloppé dans `sticky top-2 z-40` (bg `paper`)
-    → reste visible pendant le scroll (l'image).
+    → reste visible pendant le scroll.
 
   **Astuce déploiement** : pousser le commit de déploiement sur le branch
-  `gh-pages` depuis un **détached HEAD** — `git worktree add` sur un coup
-  `origin/gh-pages` ne crée pas de branche locale nommée `gh-pages`, il faut
-  `git push <url> <sha-detached>:gh-pages`.
+  `gh-pages` depuis un **détached HEAD** — `git worktree add` sur
+  `origin/gh-pages` ne crée pas de branche locale nommée `gh-pages` ; puis
+  `git -C <worktree> push <url> HEAD:gh-pages` (⚠️ toujours `-C` le worktree :
+  depuis le repo principal, **HEAD = main** et le push serait rejeté).
 
-- `app/globals.css` : utilité `@layer utilities .scrollbar-thin` (barre de
-  défilement horizontale fine et dorée pour les chips).
+- `app/globals.css` : inchangé en fin de compte (l'utilitaire `scrollbar-thin`
+  ajouté pour les chips a été retiré après passage aux cartes grille).
 
 **Vérification** : `npm run build` → OK (19 pages) ; live HTTP 200 sur
 `/livre-al-istibsar/` et `/livre-al-istibsar/index.txt` ; le HTML servi contient
@@ -307,17 +309,19 @@ thème clair/sombre, polices Amiri/Aref).
 a été construit avec `npm run build` **sans** `GITHUB_PAGES=true`. Comme
 `next.config.js` active `basePath`/`assetPrefix` uniquement avec cette variable,
 le HTML exporté référençait des assets racine `/_next/...` → **404** sur GitHub
-Pages (aucun CSS/JS : surprise, les cartes n'affichaient pas la page en fait).
-Correctif : **toujours construire avec `GITHUB_PAGES=true npm run build`**, puis
-vérifier qu'`out/index.html` référence `/livre-al-istibsar/_next/...`. Nouveau
-déploiement propre : `2e453b8` (assets 200 + cartes dans le DOM + `sticky`).
+Pages (aucun CSS/JS : l'utilisateur ne voyait pas les cartes). Correctif :
+**toujours construire avec `GITHUB_PAGES=true npm run build`**, puis vérifier
+qu'`out/index.html` référence `/livre-al-istibsar/_next/...`.
+
+**V2 des cartes** : après un deuxième retour « toujours pas de cartes »,
+nouvelles **cartes-boutons dans une grille** (titre + note du réel texte) — 200.
 
 **Commits** :
 
 | Étape | Commit |
 |-------|--------|
-| Source (`main`) | `48b544a` |
-| Déploiement corrigé (`gh-pages`) | `2e453b8` |
+| Source (`main`) | `48b544a` (UI), puis commit de ce backup |
+| Déploiement corrigé (`gh-pages`) | `2e453b8` → `360b2f1` (cartes V2) |
 
 ---
 
