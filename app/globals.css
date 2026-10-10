@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-parchment text-ink min-h-screen;
+    font-family: 'Georgia', 'Noto Naskh Arabic', serif;
+    direction: rtl;
+  }
+}
