@@ -219,9 +219,9 @@ Retour utilisateur : les sections ne contenaient que des **résumés**, pas le
 | 3-1 | 109–120 + 142–153 | طرابلس، القيروان، سفاقس، تونس، البلاد الصحراوية، الجريد |
 | 3-2 | 121–137 + 140–141 + 154–178 | قرطاجنة، المهدية، سوسة، بجاية، قسطيلية، المغرب الأوسط |
 | 4-1 | 179–186 + 208–210 | بلاد المغرب، فاس، مراكش |
-| 4-2 | 187–207 + 211–226 | مكناسة، غمارة، سجلماسة، درعة، أغمات، السوس، السودان، غانة، الخاتمة |
+| 4-2 | 187–210 | مكناسة، غمارة، سجلماسة، درعة، أغمات، السوس، لمتونة، أودغست |
 | 4-3 | 138–139 | طنجة، أصيلا، بحر الظلمات |
-| 5-1 | — | الأندلس (résumé conservé) |
+| 5-1 | 211–226 | بلاد السودان، صنغانة، تكرور، سلى، غانة، غياروا، تادمكة، دمدم (نصّ الكتاب الحقيقي، منقول من نهاية 4-2) |
 
 Couverture : **pages 1–226 = 100 % du texte** (0 page manquante), vérifié.
 
@@ -232,6 +232,41 @@ affiche ~52 800 caractères / 173 paragraphes.
 
 Source (domaine public) : `https://shamela.ws/book/11684` — édition
 د. سعد زغلول عبد الحميد (دار النشر المغربية 1985 / بغداد 1986).
+
+## 11. Contenu : remplacement de « الأندلس » par « بلاد السودان »
+
+**Demande utilisateur** : remplacer le chapitre 5 (la section `5-1 الأندلس`,
+qui n'existe pas dans le livre) par un chapitre sur **بلاد السودان**.
+
+**Clarification** : le texte arabe joint par l'utilisateur portait en réalité sur
+la **fondation de القيروان** (déjà couverte par la section `3-1`) ; il n'a donc
+pas été utilisé. Pour rester fidèle au livre, le chapitre sur le Soudan a été
+constitué à partir du **texte authentique de l'ouvrage lui-même**.
+
+**Modifications** :
+
+- `lib/book-texts.js` :
+  - nouvelle clé `5-1` = chapitre verbatim
+    « ذكر بلاد السودان ومدنها المشهورة وعجائبها ونبذ من سير ملوكها »
+    (صنغانة، تكرور، سلى، قلنبوا، ترنكة، **غانة**، غياروا، تادمكة، دمدم، كوكوا…)
+    — 13 760 caractères ;
+  - clé `4-2` tronquée à 37 638 caractères (le chapitre Soudan + la خاتمة + le
+    فهرس en ont été retirés / déplacés).
+- `lib/data.js` : `part5.title` → « الباب الخامس: بلاد السودان » ; titre et
+  résumé de `5-1` ; `siteInfo.description` (الأندلس → بلاد السودان).
+- `app/page.js` : introduction de la page d'accueil mise à jour.
+- `app/[...slug]/client.js` : inchangé (rendu paragraphe par paragraphe).
+
+**Vérification** : `GITHUB_PAGES=true npm run build` → **19 pages statiques** ;
+`out/part5/5-1/index.html` contient bien le texte du Soudan, et
+`out/part4/4-2/index.html` ne contient plus le chapitre Soudan.
+
+**Commits** :
+
+| Étape | Commit |
+|-------|--------|
+| Source (`main`) | `09759c5` |
+| Déploiement (`gh-pages`) | `8611e92` |
 
 ---
 
