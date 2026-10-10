@@ -91,9 +91,13 @@ export default function ClientPage({ params }) {
       </div>
 
       <article className="bg-card rounded-lg shadow-sm p-6 md:p-10 border border-line border-s-4 border-s-gold">
-        <p className={`font-book text-ink transition-all duration-200 ${fontSizeClasses[fontSize]}`}>
-          {section.content}
-        </p>
+        <div className={`font-book text-ink transition-all duration-200 ${fontSizeClasses[fontSize]}`}>
+          {section.content.split('\n').filter((p) => p.trim()).map((para, i) => (
+            <p key={i} className={`text-justify leading-loose ${i > 0 ? 'mt-4' : ''}`}>
+              {para}
+            </p>
+          ))}
+        </div>
 
         <div className="mt-8 pt-4 border-t border-line text-xs text-muted italic">
           — من كتاب «الاستبصار في عجائب الأمصار»، تحقيق د. سعد زغلول عبد الحميد
