@@ -106,11 +106,46 @@ Route (app)                              Size     First Load JS
 
 ---
 
-## 5. Push / Déploiement
+## 5. Push / Déploiement (fait)
 
-- `git init`, `.gitignore` (node_modules, .next, out), commit initial.
-- Backup de conversation : ce fichier `CONVERSATION_BACKUP.md`.
-- Déploiement cible : **Vercel** (recommandé) ou **GitHub Pages**.
+- `git init`, `.gitignore` (node_modules, .next, out), commit initial sur `main`.
+- Repo public créé : `ucfzem/livre-al-istibsar`.
+- `next.config.js` rendu compatible GitHub Pages : `basePath`/`assetPrefix`
+  activés via `GITHUB_PAGES=true`, `images.unoptimized`, `.nojekyll`.
+- Build statique exporté et publié sur la branche **`gh-pages`**.
+- **GitHub Pages** activé : source = branche `gh-pages`, dossier `/`.
+
+> Le token utilisé n'avait pas le scope `workflow`, donc le déploiement se fait
+> par la branche `gh-pages` (pas d'Actions). Rebuild + push `gh-pages` pour
+> republier.
+
+---
+
+## 6. Intégration au link tree `/works`
+
+- Hub : `ucfzem/ucfzem.github.io`, fichier `works/index.html`.
+- Ajout de **Al-Istibsar** dans la section **« Projets publics »** (la section
+  ouverte), **au milieu** de la liste : position **8** (après MicroInvoice),
+  les suivants renumérotés 9 → 16.
+- Icône choisie : **🧭** (boussole — géographie / récit de voyage).
+- Tag : `Geography` · URL : `https://ucfzem.github.io/livre-al-istibsar/`
+  (ouvre dans un nouvel onglet).
+- Sous-titre mis à jour : « 15 projets publics » → « **16 projets publics** ».
+- JSON-LD (`ItemList`) mis à jour en conséquence.
+- Modification vérifiée par `diff` strict avant publication (aucune perte).
+
+---
+
+## 7. Liens
+
+| Ressource | URL |
+|-----------|-----|
+| Site en ligne | https://ucfzem.github.io/livre-al-istibsar/ |
+| Dépôt (source) | https://github.com/ucfzem/livre-al-istibsar |
+| Branche de déploiement | https://github.com/ucfzem/livre-al-istibsar/tree/gh-pages |
+| Link tree `/works` | https://ucfzem.github.io/works/ |
+| Commit link tree | https://github.com/ucfzem/ucfzem.github.io/commit/724e5c84a549d4205221c851bd7c8bdeb300a9d0 |
+| Ce backup | https://github.com/ucfzem/livre-al-istibsar/blob/main/CONVERSATION_BACKUP.md |
 
 ---
 
