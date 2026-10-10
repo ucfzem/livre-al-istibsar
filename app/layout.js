@@ -1,5 +1,4 @@
 import './globals.css'
-import Script from 'next/script'
 import { Cairo, Amiri } from 'next/font/google'
 import { siteInfo } from '@/lib/data'
 import ThemeToggle from '@/components/ThemeToggle'
@@ -35,9 +34,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col font-cairo">
-        <Script id="theme-boot" strategy="beforeInteractive">
-          {themeBoot}
-        </Script>
+        <script dangerouslySetInnerHTML={{ __html: themeBoot }} />
         <header className="bg-green text-headertext py-6 px-4 md:px-8 shadow-md">
           <div className="max-w-4xl mx-auto flex items-start justify-between gap-4">
             <div>
