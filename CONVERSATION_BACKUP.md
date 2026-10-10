@@ -145,6 +145,8 @@ Route (app)                              Size     First Load JS
 | Branche de déploiement | https://github.com/ucfzem/livre-al-istibsar/tree/gh-pages |
 | Link tree `/works` | https://ucfzem.github.io/works/ |
 | Commit link tree | https://github.com/ucfzem/ucfzem.github.io/commit/724e5c84a549d4205221c851bd7c8bdeb300a9d0 |
+| Commit correctif (source) | https://github.com/ucfzem/livre-al-istibsar/commit/32e95c9 |
+| Commit déploiement (`gh-pages`) | https://github.com/ucfzem/livre-al-istibsar/commit/083837f |
 | Ce backup | https://github.com/ucfzem/livre-al-istibsar/blob/main/CONVERSATION_BACKUP.md |
 
 ## 8. Thème clair/sombre + typographie (Nuzhat style)
@@ -159,8 +161,47 @@ nuzhat-al-mushtaq ».
   - Variables CSS `:root` (clair) et `[data-theme="dark"]` (sombre).
   - Bouton bascule 🌙/☀️ dans l'en-tête (`components/ThemeToggle.js`).
   - Préférence sauvegardée dans `localStorage['istibsar_theme']`.
-  - Script d'amorçage `beforeInteractive` pour éviter le flash au chargement.
+  - Script d'amorçage **inline** pour éviter le flash au chargement.
 - Palette alignée sur Nuzhat (vert / or / parchemin).
+
+## 9. Correctif : « Application error » (chunk double-encodé)
+
+**Symptôme** : « Application error: a client-side exception has occurred » lors de
+la navigation côté client vers une section (ex. `/part4/4-1/`). La requête de
+chunk partait double-encodée : `.../app/%255B...slug%255D/page-*.js` → **404** →
+`ChunkLoadError`.
+
+**Cause** : bug Next.js **#57829** — la présence d'un script
+`beforeInteractive` déclenche un *monkey patch* webpack qui double-encode les
+noms de chunks des routes dynamiques (segment `[...slug]`) en export statique.
+Le chargement direct de l'URL fonctionnait, seule la navigation client cassait.
+
+**Correctif** : remplacement du `<Script strategy="beforeInteractive">`
+(amorçage du thème) par un `<script dangerouslySetInnerHTML>` inline dans
+`app/layout.js` — commit **`32e95c9`**.
+
+**Vérification** (Playwright, contre le site en ligne) : navigation client vers
+les **15 sections** → 0 erreur applicative, 0 requête de chunk en 4xx, thème
+sombre OK sans avertissement d'hydratation.
+
+**Déploiement** : branche `gh-pages` mise à jour (force) → `083837f`.
+
+## 10. Contenu : textes originaux vs résumés (en cours)
+
+Retour utilisateur : les sections ne contiennent pour l'instant que des
+**descriptions/résumés**, pas le **texte original intégral**.
+
+Sources publiques (domaine public) identifiées pour les textes authentiques :
+
+| Source | URL |
+|--------|-----|
+| المكتبة الشاملة | https://shamela.ws/book/11684 |
+| الشاملة (lecture) | https://read.shamela.ws/book/11684/ |
+| أرشيف الإسلام | https://www.islamarchive.cc/ketab_content/997 |
+| Internet Archive (PDF) | https://archive.org/details/alistibsar_201604 |
+| ويكي مصدر (وصف إفريقية) | https://ar.wikisource.org/wiki/ملف:وصف_إفريقية_من_الاستبصار_في_عجائب_الأمصار.pdf |
+
+Édition de référence : د. سعد زغلول عبد الحميد (دار النشر المغربية 1985 / بغداد 1986).
 
 ---
 
