@@ -3,6 +3,14 @@ import { useState, useMemo } from 'react'
 import { chapters } from '@/lib/data'
 import Link from 'next/link'
 
+const highlights = [
+  { label: '🏛️ وضع القيروان', term: 'القيروان' },
+  { label: '🌴 آبار ورجلان العجيبة', term: 'ورجلان' },
+  { label: '🏺 بلاد غانة والذهب', term: 'غانة' },
+  { label: '💎 حجارة العقيق والسنبادج', term: 'العقيق' },
+  { label: '🌿 شجرة توريرى', term: 'توريرى' },
+]
+
 export default function Home() {
   const [openChapter, setOpenChapter] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -41,24 +49,43 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="ابحث في محتوى الكتاب (مثلاً: مراكش، الأهرامات، فاس...)"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full py-3.5 px-4 pr-12 bg-card border border-line text-ink rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gold text-right placeholder-muted"
-          dir="rtl"
-        />
-        <span className="absolute right-4 top-4 text-gold text-lg">🔍</span>
-        {searchQuery && (
+      <div className="sticky top-2 z-40 py-1 bg-paper">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="ابحث في محتوى الكتاب (مثلاً: مراكش، الأهرامات، فاس...)"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full py-3.5 px-4 pr-12 bg-card border border-line text-ink rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gold text-right placeholder-muted"
+            dir="rtl"
+          />
+          <span className="absolute right-4 top-4 text-gold text-lg">🔍</span>
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute left-4 top-4 text-muted hover:text-ink text-sm font-bold bg-panel rounded-full w-6 h-6 flex items-center justify-center"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      </div>
+
+      <h3 className="text-sm font-semibold text-muted mb-1">✨ عجائب ومواضع مميزة — للوصول إليها بلمسة واحدة</h3>
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+        {highlights.map((h) => (
           <button
-            onClick={() => setSearchQuery('')}
-            className="absolute left-4 top-4 text-muted hover:text-ink text-sm font-bold bg-panel rounded-full w-6 h-6 flex items-center justify-center"
+            key={h.term}
+            onClick={() => setSearchQuery(searchQuery === h.term ? '' : h.term)}
+            className={`shrink-0 whitespace-nowrap font-amiri rounded-full px-4 py-1.5 border text-base transition-colors ${
+              searchQuery === h.term
+                ? 'bg-gold text-white border-gold'
+                : 'bg-card border-line text-ink hover:border-gold hover:text-accent'
+            }`}
           >
-            ✕
+            {h.label}
           </button>
-        )}
+        ))}
       </div>
 
       <div className="flex items-center justify-between">
