@@ -303,12 +303,21 @@ thème clair/sombre, polices Amiri/Aref).
 `/livre-al-istibsar/` et `/livre-al-istibsar/index.txt` ; le HTML servi contient
 `sticky top-2`, « ✨ عجائب » et « ورجلان ».
 
+⚠️ **Erreur de build corrigée (important)** : le premier déploiement (`07665ef`)
+a été construit avec `npm run build` **sans** `GITHUB_PAGES=true`. Comme
+`next.config.js` active `basePath`/`assetPrefix` uniquement avec cette variable,
+le HTML exporté référençait des assets racine `/_next/...` → **404** sur GitHub
+Pages (aucun CSS/JS : surprise, les cartes n'affichaient pas la page en fait).
+Correctif : **toujours construire avec `GITHUB_PAGES=true npm run build`**, puis
+vérifier qu'`out/index.html` référence `/livre-al-istibsar/_next/...`. Nouveau
+déploiement propre : `2e453b8` (assets 200 + cartes dans le DOM + `sticky`).
+
 **Commits** :
 
 | Étape | Commit |
 |-------|--------|
 | Source (`main`) | `48b544a` |
-| Déploiement (`gh-pages`) | `07665ef` |
+| Déploiement corrigé (`gh-pages`) | `2e453b8` |
 
 ---
 
