@@ -1,12 +1,14 @@
-const CACHE = 'istibsar-cache-v1.0.0';
+const CACHE = 'istibsar-cache-v1.0.1';
 const PRECACHE = [
   "./",
   "./index.html",
   "./.nojekyll",
   "./404/index.html",
   "./404.html",
+  "./_next/static/BsYqLqEQqAEA8P8d4HbH3/_buildManifest.js",
+  "./_next/static/BsYqLqEQqAEA8P8d4HbH3/_ssgManifest.js",
   "./_next/static/chunks/176-190ee692847d7524.js",
-  "./_next/static/chunks/332-a082f973cca96dd7.js",
+  "./_next/static/chunks/332-4fa6b0c65504e411.js",
   "./_next/static/chunks/472-3a87bb641b23ab08.js",
   "./_next/static/chunks/app/[...slug]/page-d8bf2bce41c5c60c.js",
   "./_next/static/chunks/app/_not-found-8f8aa05f0ee91c31.js",
@@ -21,8 +23,6 @@ const PRECACHE = [
   "./_next/static/chunks/polyfills-c67a75d1b6f99dc8.js",
   "./_next/static/chunks/webpack-239e6e76e803d63b.js",
   "./_next/static/css/d91c8c757c5f0914.css",
-  "./_next/static/k0tNkIBO0wdBPV3z1pBgk/_buildManifest.js",
-  "./_next/static/k0tNkIBO0wdBPV3z1pBgk/_ssgManifest.js",
   "./_next/static/media/01f0c602c274ea55-s.p.woff2",
   "./_next/static/media/350b852752f8489d-s.p.woff2",
   "./_next/static/media/5aae3a1c1074c5e1-s.p.woff2",
