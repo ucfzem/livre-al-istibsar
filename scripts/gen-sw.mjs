@@ -28,14 +28,26 @@ const rel = all
 
 const precache = [...new Set(['./', './index.html', ...rel.map((f) => './' + f)])];
 
-const sw = `const CACHE = 'istibsar-cache-v1.0.1';
+const sw = `const CACHE = 'istibsar-cache-v1.0.2';
 const PRECACHE = ${JSON.stringify(precache, null, 2)};
+
+async function precacheAll(cache, urls, concurrency = 4) {
+  let i = 0;
+  const worker = async () => {
+    while (i < urls.length) {
+      const u = urls[i++];
+      try { await cache.add(u); }
+      catch (e) { try { await new Promise((r) => setTimeout(r, 300)); await cache.add(u); } catch (_) {} }
+    }
+  };
+  await Promise.all(Array.from({ length: concurrency }, worker));
+}
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    await Promise.all(PRECACHE.map((u) => cache.add(u).catch(() => {})));
+    await precacheAll(cache, PRECACHE);
   })());
 });
 
