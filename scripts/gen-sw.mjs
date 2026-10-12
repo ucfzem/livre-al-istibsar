@@ -88,16 +88,35 @@ self.addEventListener('fetch', (event) => {
 fs.writeFileSync(path.join(OUT, 'sw.js'), sw);
 
 const MARK = 'data-sw-reg="1"';
+const HEAD_MARK = 'data-pwa-head="1"';
 let injected = 0;
 for (const f of all) {
   if (!f.endsWith('.html')) continue;
   let h = fs.readFileSync(f, 'utf8');
-  if (h.includes(MARK)) continue;
-  const tag = `<script ${MARK}>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('${base}/sw.js',{scope:'${base}/'}).catch(function(){})})}</script>`;
-  if (/<\/body>/i.test(h)) h = h.replace(/<\/body>/i, tag + '\n</body>');
-  else h += '\n' + tag;
-  fs.writeFileSync(f, h);
-  injected++;
+  let changed = false;
+  if (!h.includes(HEAD_MARK)) {
+    const headTags = `<link ${HEAD_MARK} rel="manifest" href="${base}/manifest.webmanifest">
+<meta ${HEAD_MARK} name="theme-color" content="#0e7490">
+<link ${HEAD_MARK} rel="icon" href="${base}/icon.svg" type="image/svg+xml">
+<link ${HEAD_MARK} rel="apple-touch-icon" href="${base}/icon-192.png">
+<meta ${HEAD_MARK} name="apple-mobile-web-app-capable" content="yes">
+<meta ${HEAD_MARK} name="mobile-web-app-capable" content="yes">`;
+    if (/<\/head>/i.test(h)) h = h.replace(/<\/head>/i, headTags + '\n</head>');
+    changed = true;
+  }
+  if (!h.includes(MARK)) {
+    const tag = `<script ${MARK}>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('${base}/sw.js',{scope:'${base}/'}).catch(function(){})})}</script>`;
+    if (/<\/body>/i.test(h)) h = h.replace(/<\/body>/i, tag + '\n</body>');
+    else h += '\n' + tag;
+    changed = true;
+  }
+  if (!h.includes('data-root-sw="1"')) {
+    const rootTag = `<script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>`;
+    if (/<\/body>/i.test(h)) h = h.replace(/<\/body>/i, rootTag + '\n</body>');
+    else h += '\n' + rootTag;
+    changed = true;
+  }
+  if (changed) { fs.writeFileSync(f, h); injected++; }
 }
 
 console.log(`gen-sw: base="${base}" files=${rel.length} precache=${precache.length} html-injected=${injected}`);

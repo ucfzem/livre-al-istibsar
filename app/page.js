@@ -4,11 +4,11 @@ import { chapters } from '@/lib/data'
 import Link from 'next/link'
 
 const highlights = [
-  { label: '🏛️ وضع القيروان', term: 'القيروان' },
-  { label: '🌴 آبار ورجلان العجيبة', term: 'ورجلان' },
-  { label: '🏺 بلاد غانة والذهب', term: 'غانة' },
-  { label: '💎 حجارة العقيق والسنبادج', term: 'العقيق' },
-  { label: '🌿 شجرة توريرى', term: 'توريرى' },
+  { icon: '🏛️', label: 'وضع مدينة القيروان', term: 'القيروان', note: 'آية غيضة الوحوش ووضع المسجد الجامع سنة 47هـ' },
+  { icon: '🌴', label: 'آبار ورجلان العجيبة', term: 'ورجلان', note: 'بئرٌ يدرك على طبقةٍ من حجرٍ فتتفجر ماءً على الدهور' },
+  { icon: '🏺', label: 'بلاد غانة والذهب', term: 'غانة', note: 'أعظم ممالك السودان وما يبذل في حجرها من الرغائب' },
+  { icon: '💎', label: 'معادن العقيق والسنبادج', term: 'العقيق', note: 'حجرٌ لا يعمل فيه الحديد وإنما يثقب بالسنبادج' },
+  { icon: '🌿', label: 'شجرة توريرى', term: 'توريرى', note: 'ثمرها صوفٌ أبيض يغزل منه ثيابٌ لا تؤثر فيها النار' },
 ]
 
 export default function Home() {
@@ -71,21 +71,29 @@ export default function Home() {
         </div>
       </div>
 
-      <h3 className="text-sm font-semibold text-muted mb-1">✨ عجائب ومواضع مميزة — للوصول إليها بلمسة واحدة</h3>
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
-        {highlights.map((h) => (
-          <button
-            key={h.term}
-            onClick={() => setSearchQuery(searchQuery === h.term ? '' : h.term)}
-            className={`shrink-0 whitespace-nowrap font-amiri rounded-full px-4 py-1.5 border text-base transition-colors ${
-              searchQuery === h.term
-                ? 'bg-gold text-white border-gold'
-                : 'bg-card border-line text-ink hover:border-gold hover:text-accent'
-            }`}
-          >
-            {h.label}
-          </button>
-        ))}
+      <h3 className="text-base font-semibold text-accent mb-2 mt-4">✨ عجائب الكتاب — بطاقات الوصول السريع</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-4">
+        {highlights.map((h) => {
+          const active = searchQuery === h.term
+          return (
+            <button
+              key={h.term}
+              onClick={() => setSearchQuery(active ? '' : h.term)}
+              aria-pressed={active}
+              className={`text-right rounded-xl border p-4 flex items-center gap-3 transition-colors text-ink ${
+                active
+                  ? 'bg-gold border-gold'
+                  : 'bg-card border-line hover:border-gold hover:bg-panel'
+              }`}
+            >
+              <span className="text-2xl shrink-0">{h.icon}</span>
+              <span className="flex flex-col min-w-0">
+                <span className={`font-semibold text-base ${active ? 'text-white' : 'text-ink'}`}>{h.label}</span>
+                <span className={`font-book text-sm mt-0.5 ${active ? 'text-white/90' : 'text-muted'}`}>{h.note}</span>
+              </span>
+            </button>
+          )
+        })}
       </div>
 
       <div className="flex items-center justify-between">
