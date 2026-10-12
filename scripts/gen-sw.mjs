@@ -28,7 +28,7 @@ const rel = all
 
 const precache = [...new Set(['./', './index.html', ...rel.map((f) => './' + f)])];
 
-const sw = `const CACHE = 'istibsar-cache-v1.0.0';
+const sw = `const CACHE = 'istibsar-cache-v1.0.1';
 const PRECACHE = ${JSON.stringify(precache, null, 2)};
 
 self.addEventListener('install', (event) => {
